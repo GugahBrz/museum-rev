@@ -24,7 +24,7 @@
 		var listener = null ;
 		var sound  = null ; 
 		var sound1 = null ; 
- 
+		var sph = [];
 		var controls = null ; 
 		var windowHalfX = window.innerWidth  / 2.0 ; 
 		var windowHalfY = window.innerHeight / 2.0 ; 
@@ -88,13 +88,14 @@
 		}
 
 
+
 		function creerScene(){
 
 			//Section audio
 			//var listener = new THREE.AudioListener() ; 
 			//camera.add(listener) ; 
 
-    			var geo = new THREE.BoxGeometry(1,1,1) ; 
+    		var geo = new THREE.BoxGeometry(1,1,1) ; 
 			var material = new THREE.MeshNormalMaterial() ;
 			cube = new THREE.Mesh(geo,material) ;
 			
