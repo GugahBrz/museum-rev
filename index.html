@@ -100,12 +100,10 @@
 			lights_hall[0].position.set( 9.5, 2.5, 5 );
 			lights_hall[1] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
 			lights_hall[1].position.set( 7, 2.5, 13 );
-
 			lights_hall[2] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
 			lights_hall[2].position.set( -9.5, 2.5, 5 );
 			lights_hall[3] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
 			lights_hall[3].position.set( -9.5, 2.5, 13 );
-
 			lights_hall[4] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
 			lights_hall[4].position.set( 0, 2.5, 4 );
 			
@@ -132,6 +130,16 @@
 
 			for(i = 0; i < lights_salle2.length; i++) {
 				scene.add( lights_salle2[i] );
+			}
+
+			lights_escalier = [];
+			lights_escalier[0] = creerSourcePonctuelle(0xffffff, 4.5, 7, 2) ;
+			lights_escalier[0].position.set( -3, 2.5, -5);
+			lights_escalier[1] = creerSourcePonctuelle(0xffffff, 4.5, 7, 2) ;
+			lights_escalier[1].position.set( 2, 2.5, -5);
+
+			for(i = 0; i < lights_escalier.length; i++) {
+				scene.add( lights_escalier[i] );
 			}
 
 			//parser() ;
