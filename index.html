@@ -93,10 +93,10 @@
 			//var listener = new THREE.AudioListener() ; 
 			//camera.add(listener) ; 
 
-    			var geo = new THREE.BoxGeometry(2,2,2) ; 
+    			var geo = new THREE.BoxGeometry(1,1,1) ; 
 			var material = new THREE.MeshNormalMaterial() ;
 			var cube = new THREE.Mesh(geo,material) ;
-			cube.position.set(0,3,0) ;   
+			cube.position.set(13.7,0.5,11) ;   
 			scene.add(cube) ; 
 
 
@@ -107,7 +107,7 @@
 
 
 
-			//scene.add(creerSoleil()) ; 
+			scene.add(creerSoleil()) ; 
 			pointeur = creerSphere("pointeur",0.05,16,materiauRouge) ; 
 			scene.add(pointeur) ; 
 
