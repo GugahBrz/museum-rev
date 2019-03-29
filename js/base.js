@@ -8,7 +8,6 @@ function creerGroupe(nom){
 function creerAxes(l){
     return new THREE.AxisHelper(l) ; 
 }
-	
 
 function creerSol(nom,largeur,hauteur,materiau){
 	var geo   = new THREE.PlaneGeometry(
@@ -85,9 +84,6 @@ function creerText(description,largeur,hauteur){
 }
 
 
-
-
-
 // ===================
 // Création de sources
 // ===================
@@ -119,7 +115,6 @@ function creerSourceAudio3d(listener, fileName, loop, volume, distance){
 				}) ;
 	return sound ;
 }
-
 
 
 // =====================
@@ -165,8 +160,6 @@ function orienterY(mesh,y){
 function parentDe(pere,fils){
 	pere.add(fils) ; 
 }
-
-
 
 
 // =============================

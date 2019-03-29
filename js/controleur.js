@@ -67,19 +67,7 @@ KeyboardControls.prototype.update = function(dt){
 	} ;
 
 	this.object.lookAt(this.cible) ; 
-
-	
 }
-
-
-
-
-
-
-
-
-
-
 
 
 function keyUp(event){
@@ -104,7 +92,6 @@ function keyUp(event){
 			break ; 
 	}
 }
-
 
 
 function keyDown(event){
@@ -132,6 +119,7 @@ function keyDown(event){
 	}
 }
 
+
 var mouse     = new THREE.Vector2() ; 
 var raycaster = new THREE.Raycaster() ; 
 var mouseClicked = false ; 
@@ -139,12 +127,9 @@ var world = null ;
 var origin = new THREE.Vector3() ; 
 var ext = new THREE.Vector3() ; 
 
-
-
-
-
 function mouseMove(event){
 }
+
 
 function mouseDown(event){
 	event.preventDefault() ; 
@@ -160,7 +145,5 @@ function mouseDown(event){
 		ext    = new THREE.Vector3(0,0,2) ; 
 		origin.applyMatrix4(world) ; 
 		ext.applyMatrix4(world) ; 
-		
 	}
 }
-

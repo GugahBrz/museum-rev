@@ -3,8 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Activités three.js</title>
-		<link rel="stylesheet" href="css/style.css">
-
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<script src="lib/three.min.js"></script>
@@ -12,7 +11,6 @@
 	<script src="js/parser.js"></script>
 	<script src="js/controleur.js"></script>
 	<script>
-
 		var temps = 0.0 ; 
 		var dt ; 
 		var chrono = null ; 
@@ -30,16 +28,12 @@
 		var windowHalfY = window.innerHeight / 2.0 ; 
 
 		var pointeur ;
-
 		var mouseX = mouseY = 0.0 ; 
-
 		var data ; 
 		var cube ;
 
 		function init(){
-
 			chrono = new THREE.Clock() ; 
-		
 			annuaire = {} ; 
 
 			renderer = new THREE.WebGLRenderer();
@@ -62,10 +56,7 @@
 				camera.aspect = window.innerWidth / window.innerHeight ;
 				camera.updateProjectionMatrix() ; 
 				renderer.setSize(window.innerWidth , window.innerHeight) ; 
-				
-			}) ; 
-
-
+			}) ;
 
 			controls = new KeyboardControls(camera) ; 
 			console.log(controls) ; 
@@ -74,9 +65,7 @@
 			window.addEventListener('keyup',     keyUp     ,    false) ;
 			window.addEventListener('mousemove', mouseMove ,    false) ;
 			window.addEventListener('mousedown', mouseDown ,    false) ;
-
-			chrono.start() ; 
-
+			chrono.start() ;
 		} ; 
 
 		function enregistrerDansAnnuaire(nom,objet){
@@ -87,8 +76,6 @@
 			return (annuaire[nom] || null) ; 
 		}
 
-
-
 		function creerScene(){
 
 			//Section audio
@@ -98,35 +85,61 @@
     		var geo = new THREE.BoxGeometry(1,1,1) ; 
 			var material = new THREE.MeshNormalMaterial() ;
 			cube = new THREE.Mesh(geo,material) ;
-			
-			cube.position.set(13.7,0.5,11) ;   
+			cube.position.set(13.7, 0.5, 12.5) ;   
 			scene.add(cube) ; 
-
-
 
 			//sound2 = creerSourceAudio3d(listener,"assets/sounds/oiseaux/piste_5.mp3",
                          //                                    {"loop":true}) ;
 
-
-
-			var light = new THREE.PointLight( 0x0000ff	, 10, 1 );
-			light.position.set( 2, 2, 10 );
-			scene.add( light );
-
-
-
-			//scene.add(creerSoleil()) ; 
+			// scene.add(creerSoleil()) ;
 			pointeur = creerSphere("pointeur",0.05,16,materiauRouge) ; 
-			scene.add(pointeur) ; 
+			scene.add(pointeur) ;
+
+			lights_hall = [];
+			lights_hall[0] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[0].position.set( 9.5, 2.5, 5 );
+			lights_hall[1] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[1].position.set( 7, 2.5, 13 );
+
+			lights_hall[2] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[2].position.set( -9.5, 2.5, 5 );
+			lights_hall[3] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[3].position.set( -9.5, 2.5, 13 );
+
+			lights_hall[4] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[4].position.set( 0, 2.5, 4 );
+			
+			var i;
+			for(i = 0; i < lights_hall.length; i++) {
+				scene.add( lights_hall[i] );
+			}
+
+			lights_salle1 = [];
+			lights_salle1[0] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle1[0].position.set( -9.5, 2.5, -5);
+			lights_salle1[1] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle1[1].position.set( -10, 2.5, -13);
+
+			for(i = 0; i < lights_salle1.length; i++) {
+				scene.add( lights_salle1[i] );
+			}
+
+			lights_salle2 = [];
+			lights_salle2[0] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle2[0].position.set( 9.5, 2.5, -5);
+			lights_salle2[1] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle2[1].position.set( 10, 2.5, -13);
+
+			for(i = 0; i < lights_salle2.length; i++) {
+				scene.add( lights_salle2[i] );
+			}
 
 			//parser() ;
 			chargerDocument() ;  
 			console.log("Fin de création de la scène") ; 
 		}
 
-
 		function animate(){
-
 			dt = chrono.getDelta() ; 
 			temps += dt ; 
 			requestAnimationFrame(animate) ; 
@@ -135,18 +148,8 @@
 			renderer.render(scene, camera) ; 
 		}
 
-
-
 		init() ; 
 		creerScene() ; 
 		animate() ; 
-
-
-
-
-		
-
-		
-
 	</script>
 </html>
