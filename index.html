@@ -3,8 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Activités three.js</title>
-		<link rel="stylesheet" href="css/style.css">
-
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<script src="lib/three.min.js"></script>
@@ -12,7 +11,6 @@
 	<script src="js/parser.js"></script>
 	<script src="js/controleur.js"></script>
 	<script>
-
 		var temps = 0.0 ; 
 		var dt ; 
 		var chrono = null ; 
@@ -30,15 +28,11 @@
 		var windowHalfY = window.innerHeight / 2.0 ; 
 
 		var pointeur ;
-
 		var mouseX = mouseY = 0.0 ; 
-
 		var data ; 
 
 		function init(){
-
 			chrono = new THREE.Clock() ; 
-		
 			annuaire = {} ; 
 
 			renderer = new THREE.WebGLRenderer();
@@ -61,10 +55,7 @@
 				camera.aspect = window.innerWidth / window.innerHeight ;
 				camera.updateProjectionMatrix() ; 
 				renderer.setSize(window.innerWidth , window.innerHeight) ; 
-				
-			}) ; 
-
-
+			}) ;
 
 			controls = new KeyboardControls(camera) ; 
 			console.log(controls) ; 
@@ -73,9 +64,7 @@
 			window.addEventListener('keyup',     keyUp     ,    false) ;
 			window.addEventListener('mousemove', mouseMove ,    false) ;
 			window.addEventListener('mousedown', mouseDown ,    false) ;
-
-			chrono.start() ; 
-
+			chrono.start() ;
 		} ; 
 
 		function enregistrerDansAnnuaire(nom,objet){
@@ -86,39 +75,43 @@
 			return (annuaire[nom] || null) ; 
 		}
 
-
 		function creerScene(){
 
 			//Section audio
 			//var listener = new THREE.AudioListener() ; 
 			//camera.add(listener) ; 
 
-    			var geo = new THREE.BoxGeometry(1,1,1) ; 
+    		var geo = new THREE.BoxGeometry(1,1,1) ; 
 			var material = new THREE.MeshNormalMaterial() ;
 			var cube = new THREE.Mesh(geo,material) ;
-			cube.position.set(13.7,0.5,11) ;   
+			cube.position.set(13.7, 0.5, 12.5) ;   
 			scene.add(cube) ; 
-
-
 
 			//sound2 = creerSourceAudio3d(listener,"assets/sounds/oiseaux/piste_5.mp3",
                          //                                    {"loop":true}) ;
 
-
-
-
-			scene.add(creerSoleil()) ; 
+			// scene.add(creerSoleil()) ;
 			pointeur = creerSphere("pointeur",0.05,16,materiauRouge) ; 
-			scene.add(pointeur) ; 
+			scene.add(pointeur) ;
+
+			light1 = creerSourcePonctuelle(0xffffff, 5, 6.5, 1) ;
+			light1.position.set( 9, 2.2, 10 );
+			scene.add( light1 );
+
+			light2 = creerSourcePonctuelle(0xffffff, 5, 6.5, 1) ;
+			light2.position.set( -9, 2.2, 10 );
+			scene.add( light2 );
+
+			light3 = creerSourcePonctuelle(0xffffff, 5, 6.5, 1) ;
+			light3.position.set( 0, 2.2, 4 );
+			scene.add( light3 );
 
 			//parser() ;
 			chargerDocument() ;  
 			console.log("Fin de création de la scène") ; 
 		}
 
-
 		function animate(){
-
 			dt = chrono.getDelta() ; 
 			temps += dt ; 
 			requestAnimationFrame(animate) ; 
@@ -126,18 +119,8 @@
 			renderer.render(scene, camera) ; 
 		}
 
-
-
 		init() ; 
 		creerScene() ; 
 		animate() ; 
-
-
-
-
-		
-
-		
-
 	</script>
 </html>
