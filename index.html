@@ -30,6 +30,7 @@
 		var pointeur ;
 		var mouseX = mouseY = 0.0 ; 
 		var data ; 
+		var cube ;
 
 		function init(){
 			chrono = new THREE.Clock() ; 
@@ -83,7 +84,7 @@
 
     		var geo = new THREE.BoxGeometry(1,1,1) ; 
 			var material = new THREE.MeshNormalMaterial() ;
-			var cube = new THREE.Mesh(geo,material) ;
+			cube = new THREE.Mesh(geo,material) ;
 			cube.position.set(13.7, 0.5, 12.5) ;   
 			scene.add(cube) ; 
 
@@ -94,17 +95,44 @@
 			pointeur = creerSphere("pointeur",0.05,16,materiauRouge) ; 
 			scene.add(pointeur) ;
 
-			light1 = creerSourcePonctuelle(0xffffff, 5, 6.5, 1) ;
-			light1.position.set( 9, 2.2, 10 );
-			scene.add( light1 );
+			lights_hall = [];
+			lights_hall[0] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[0].position.set( 9.5, 2.5, 5 );
+			lights_hall[1] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[1].position.set( 7, 2.5, 13 );
 
-			light2 = creerSourcePonctuelle(0xffffff, 5, 6.5, 1) ;
-			light2.position.set( -9, 2.2, 10 );
-			scene.add( light2 );
+			lights_hall[2] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[2].position.set( -9.5, 2.5, 5 );
+			lights_hall[3] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[3].position.set( -9.5, 2.5, 13 );
 
-			light3 = creerSourcePonctuelle(0xffffff, 5, 6.5, 1) ;
-			light3.position.set( 0, 2.2, 4 );
-			scene.add( light3 );
+			lights_hall[4] = creerSourcePonctuelle(0xffffff, 5, 7, 1) ;
+			lights_hall[4].position.set( 0, 2.5, 4 );
+			
+			var i;
+			for(i = 0; i < lights_hall.length; i++) {
+				scene.add( lights_hall[i] );
+			}
+
+			lights_salle1 = [];
+			lights_salle1[0] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle1[0].position.set( -9.5, 2.5, -5);
+			lights_salle1[1] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle1[1].position.set( -10, 2.5, -13);
+
+			for(i = 0; i < lights_salle1.length; i++) {
+				scene.add( lights_salle1[i] );
+			}
+
+			lights_salle2 = [];
+			lights_salle2[0] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle2[0].position.set( 9.5, 2.5, -5);
+			lights_salle2[1] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
+			lights_salle2[1].position.set( 10, 2.5, -13);
+
+			for(i = 0; i < lights_salle2.length; i++) {
+				scene.add( lights_salle2[i] );
+			}
 
 			//parser() ;
 			chargerDocument() ;  
@@ -115,6 +143,7 @@
 			dt = chrono.getDelta() ; 
 			temps += dt ; 
 			requestAnimationFrame(animate) ; 
+			cube.rotation.y += 0.1;
 			controls.update(dt) ; 
 			renderer.render(scene, camera) ; 
 		}
