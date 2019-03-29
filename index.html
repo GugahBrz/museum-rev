@@ -34,6 +34,7 @@
 		var mouseX = mouseY = 0.0 ; 
 
 		var data ; 
+		var cube ;
 
 		function init(){
 
@@ -95,7 +96,8 @@
 
     			var geo = new THREE.BoxGeometry(1,1,1) ; 
 			var material = new THREE.MeshNormalMaterial() ;
-			var cube = new THREE.Mesh(geo,material) ;
+			cube = new THREE.Mesh(geo,material) ;
+			
 			cube.position.set(13.7,0.5,11) ;   
 			scene.add(cube) ; 
 
@@ -106,8 +108,13 @@
 
 
 
+			var light = new THREE.PointLight( 0x0000ff	, 10, 1 );
+			light.position.set( 2, 2, 10 );
+			scene.add( light );
 
-			scene.add(creerSoleil()) ; 
+
+
+			//scene.add(creerSoleil()) ; 
 			pointeur = creerSphere("pointeur",0.05,16,materiauRouge) ; 
 			scene.add(pointeur) ; 
 
@@ -122,6 +129,7 @@
 			dt = chrono.getDelta() ; 
 			temps += dt ; 
 			requestAnimationFrame(animate) ; 
+			cube.rotation.y += 0.1;
 			controls.update(dt) ; 
 			renderer.render(scene, camera) ; 
 		}
