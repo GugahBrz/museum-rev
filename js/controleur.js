@@ -2,13 +2,13 @@
 var KeyboardControls = function(object){
 	this.object    = object ; 
 
-	this.position  = new THREE.Vector3(1,1.7,5) ; 
+	this.position  = new THREE.Vector3(0,1.7,11) ; 
 
-	this.angle     = 0.0 ; 
+	this.angle     = 3.1415/2 ; 
 	this.direction = new THREE.Vector3(1,0,0) ; 
 	this.cible     = new THREE.Vector3(2,1.7,5) ; 
 
-	this.vitesse   = 2.0 ; 
+	this.vitesse   = 8.0 ; 
 
 	this.plusHaut  = false ; 
 	this.plusBas   = false ; 
@@ -29,11 +29,11 @@ KeyboardControls.prototype.update = function(dt){
 		this.position.y -= this.vitesse * dt ; 
 
 	if(this.aGauche)
-		this.angle += 0.05 ; 
+		this.angle += 0.07 ; 
 
 
 	if(this.aDroite)
-		this.angle -= 0.05 ; 
+		this.angle -= 0.07 ; 
 
 	if(this.enAvant){
 		this.position.x +=  this.vitesse * dt * Math.cos(this.angle) ; 
@@ -72,22 +72,22 @@ KeyboardControls.prototype.update = function(dt){
 
 function keyUp(event){
 	switch(event.keyCode){
-		case 33 : // HAUT
+		case 82 : // HAUT
 			controls.plusHaut = false ; 
 			break ; 
-		case 34 : // BAS
+		case 70 : // BAS
 			controls.plusBas = false ;
 			break ; 
-		case 37 : // GAUCHE
+		case 81 : // GAUCHE
 			controls.aGauche = false ; 
 			break ; 
-		case 38 : // HAUT
+		case 90 : // HAUT
 			controls.enAvant = false ;
 			break ; 
-		case 39 : // DROITE
+		case 68 : // DROITE
 			controls.aDroite = false ;
 			break ; 
-		case 40 : // BAS
+		case 83 : // BAS
 			controls.enArriere = false ;
 			break ; 
 	}
@@ -98,22 +98,22 @@ function keyDown(event){
 	//mouseClicked=false;
 	console.log("KEYDOWN") ; 
 	switch(event.keyCode){
-		case 33 : // HAUT
+		case 82 : // HAUT
 			controls.plusHaut = true ; 
 			break ; 
-		case 34 : // BAS
+		case 70 : // BAS
 			controls.plusBas = true ;
 			break ; 
-		case 37 : // GAUCHE
+		case 81 : // GAUCHE
 			controls.aGauche = true ; 
 			break ; 
-		case 38 : // HAUT
+		case 90 : // HAUT
 			controls.enAvant = true ;
 			break ; 
-		case 39 : // DROITE
+		case 68 : // DROITE
 			controls.aDroite = true ;
 			break ; 
-		case 40 : // BAS
+		case 83 : // BAS
 			controls.enArriere = true ;
 			break ; 
 	}

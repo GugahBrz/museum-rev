@@ -9,6 +9,7 @@
 	<script src="lib/three.min.js"></script>
 	<script src="js/base.js"></script>
 	<script src="js/parser.js"></script>
+	<script src="lib/FirstPersonControls.js"></script>
 	<script src="js/controleur.js"></script>
 	<script>
 		var temps = 0.0 ; 
@@ -19,10 +20,13 @@
 		var renderer = null;
 		var camera = null;
 
+
+		var positionCamera = null;
 		var listener = null ;
 		var sound  = null ; 
 		var sound1 = null ; 
 		var sph = [];
+		var vectorSph = [];
 		var controls = null ; 
 		var windowHalfX = window.innerWidth  / 2.0 ; 
 		var windowHalfY = window.innerHeight / 2.0 ; 
@@ -31,11 +35,18 @@
 		var mouseX = mouseY = 0.0 ; 
 		var data ; 
 		var cube ;
+		var elevator ;
+		var x;
+		var esfera;
+		var cylinder2;
+		var mainDoor ;
+		var sky;
+		var pi = 3.1415;
+		
 
 		function init(){
 			chrono = new THREE.Clock() ; 
 			annuaire = {} ; 
-
 			renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
@@ -68,6 +79,7 @@
 			chrono.start() ;
 		} ; 
 
+		
 		function enregistrerDansAnnuaire(nom,objet){
 			annuaire[nom] = objet ; 
 		}
@@ -75,23 +87,151 @@
 		function chercherDansAnnuaire(nom){
 			return (annuaire[nom] || null) ; 
 		}
+		
+		
+		
+		
+		function creerGraph(){
+		
+			var geoElevator = new THREE.BoxGeometry(1,2,1);
+			var matElevator = new THREE.MeshBasicMaterial( {color: 0x588c3d} );
+			elevator = 		  new THREE.Mesh(geoElevator,matElevator);
+			scene.add(elevator);
 
+		
+		var geometry = new THREE.CylinderGeometry(2, 2, 3, 50 );
+		var material = new THREE.MeshLambertMaterial({color: 0x7777ff, opacity: 0.8, transparent: true});
+		var cylinder = new THREE.Mesh( geometry, material );
+
+
+		cylinder.position.set(0,1.5,3);
+
+		scene.add( cylinder );
+		scene.add(cylinder2);
+
+		var yDistance = 0.05;
+		var yOffset = 1;
+		var xOffset = 0;
+		var zOffset = 3;
+		var geometry = new THREE.SphereGeometry( 0.25, 16, 16 );
+
+		
+//initial offset so does not start in middle.
+		
+		for(var i = 0; i < 15; i++){
+					var material = new THREE.MeshBasicMaterial({color:Math.random() * 0xffffff});
+					var mesh  = new THREE.Mesh(geometry, material);
+					mesh.position.y = Math.random() * (2.1 - 1) + 1;
+					//mesh.position.y = (yDistance * i) + yOffset;
+					mesh.position.x = Math.random() * (1.5 - (-1.5)) - 1.5;       
+					mesh.position.z = Math.random() * (4.3 - 1.8) + 1.8; 
+					scene.add(mesh);
+					vectorSph[i] = mesh;
+									
+								  }
+		}
+		
 		function creerScene(){
 
 			//Section audio
 			//var listener = new THREE.AudioListener() ; 
 			//camera.add(listener) ; 
-
+			
+			
+			var skyGeo = new THREE.SphereGeometry(50, 25, 25); 
+			var loader  = new THREE.TextureLoader(),
+			texture = loader.load( "assets/textures/murs/sky.jpg" );
+			var material = new THREE.MeshPhongMaterial({ 
+			map: texture,
+			});
+			sky = new THREE.Mesh(skyGeo, material);
+			sky.material.side = THREE.BackSide;
+			scene.add(sky);
+			
+					
     		var geo = new THREE.BoxGeometry(1,1,1) ; 
 			var material = new THREE.MeshNormalMaterial() ;
 			cube = new THREE.Mesh(geo,material) ;
 			cube.position.set(13.7, 0.5, 12.5) ;   
 			scene.add(cube) ; 
+			
+			
+			var geo = new THREE.BoxGeometry(30,0.1,30) ; 
+			var material = new THREE.MeshBasicMaterial( {color: 0x003366} );
+			teto = new THREE.Mesh(geo,material) ;
+			teto.position.set(0, 6, 0) ;   
+			scene.add(teto) ; 
+			
+			var loader = new THREE.TextureLoader();
+			loader.load('assets/textures/murs/sphere1.jpg', function ( texture ) {
+			var geo = new THREE.SphereGeometry(0.5,16,16) ; 
+			var material = new THREE.MeshBasicMaterial({map: texture, overdraw: 5});
+			esfera = new THREE.Mesh(geo, material);
+			esfera.position.set(-2.33, 1.5, -7.55) ;
+			scene.add(esfera);
+			});
+	
+			var loader = new THREE.TextureLoader();
+			loader.load('assets/textures/murs/mainDoor.png', function ( texture ) {
+			var geometry = new THREE.BoxGeometry(2,3,0.1)
+			var material = new THREE.MeshBasicMaterial({map: texture, overdraw: 0.5});
+			mainDoor = new THREE.Mesh(geometry, material);
+			mainDoor.position.x = -14;
+			mainDoor.position.y = 1.5;
+			mainDoor.position.z = 15;
+			scene.add(mainDoor);
+			});
+			
+			
+			var loader = new THREE.TextureLoader();
+			loader.load('assets/textures/murs/mainDoor.png', function ( texture ) {
+			var geometry = new THREE.BoxGeometry(2,3,0.1)
+			var material = new THREE.MeshBasicMaterial({map: texture, overdraw: 0.5});
+			secondDoor = new THREE.Mesh(geometry, material);
+			secondDoor.position.x = -14;
+			secondDoor.position.y = 1.5;
+			secondDoor.position.z = 0;
+			scene.add(secondDoor);
+			});
+			
+			var loader = new THREE.TextureLoader();
+			loader.load('assets/textures/murs/mainDoor.png', function ( texture ) {
+			var geometry = new THREE.BoxGeometry(2,3,0.1)
+			var material = new THREE.MeshBasicMaterial({map: texture, overdraw: 0.5});
+			thirdDoor = new THREE.Mesh(geometry, material);
+			thirdDoor.position.x = 14;
+			thirdDoor.position.y = 1.5;
+			thirdDoor.position.z = 0;
+			scene.add(thirdDoor);
+			});			
+			
+			
+			var loader = new THREE.TextureLoader();
+			loader.load('assets/textures/murs/rock.jpg', function ( texture ) {
+		    var geometry2 = new THREE.CylinderGeometry(0.5, 0.5, 1, 50 );
+			var material = new THREE.MeshBasicMaterial({map: texture, overdraw: 0.5});
+			
+			cylinder2 = new THREE.Mesh(geometry2, material);
+			cylinder2.position.set(-2.34,0.5,-7.5);
 
-			//sound2 = creerSourceAudio3d(listener,"assets/sounds/oiseaux/piste_5.mp3",
-                         //                                    {"loop":true}) ;
+			scene.add(cylinder2);
+			});
+			
 
-			// scene.add(creerSoleil()) ;
+
+			document.addEventListener("keydown", function(event) {
+			var code = event.keyCode;
+			
+			if (code === 83) block1.translateY(-3);
+			if (code === 87) block1.translateY(3);
+			if (code === 68) block1.translateX(3);
+			});
+
+
+			sound2 = creerSourceAudio3d(listener,"assets/sounds/oiseaux/piste_5.mp3",
+                                                             {"loop":true}) ;
+
+			 scene.add(sound2) ;
 			pointeur = creerSphere("pointeur",0.05,16,materiauRouge) ; 
 			scene.add(pointeur) ;
 
@@ -121,7 +261,7 @@
 			for(i = 0; i < lights_salle1.length; i++) {
 				scene.add( lights_salle1[i] );
 			}
-
+	
 			lights_salle2 = [];
 			lights_salle2[0] = creerSourcePonctuelle(0xffffff, 4.5, 7, 1) ;
 			lights_salle2[0].position.set( 9.5, 2.5, -5);
@@ -148,16 +288,78 @@
 		}
 
 		function animate(){
-			dt = chrono.getDelta() ; 
+		
+			
+			
+			
+		
+		
+			dt = chrono.getDelta(); 
 			temps += dt ; 
-			requestAnimationFrame(animate) ; 
-			cube.rotation.y += 0.1;
+			requestAnimationFrame(animate) ;	
+			elevator.position.set(14,2+1.7*Math.sin(0.5*temps)+0.3,-13.25);	
+			//cube.rotation.y += 0.1;
+			sky.rotation.y += 0.001;
+			esfera.position.set(-2.33,0.2*Math.sin(1.2*temps)+1.8,-7.55);
+			
+			if(camera.position.x > 0)
+			{
+				cube.rotation.y += camera.position.x * 0.02;
+			}
+			
+			
+			if(camera.position.x < -12.5 && camera.position.z > 11.5)
+			{
+					mainDoor.position.x = -15;
+					mainDoor.position.z = 16;
+					mainDoor.rotation.y = pi/2;
+			}
+			else
+			{
+				mainDoor.rotation.y = pi;
+				mainDoor.position.z = 15;
+				mainDoor.position.x = -14;
+			}
+				
+			if(camera.position.x < -12.5 && camera.position.z < 4 && camera.position.z > -4)
+			{
+					secondDoor.position.x = -14.9;
+					secondDoor.position.z = -1;
+					secondDoor.rotation.y = pi/2;
+			}
+			else
+			{
+					secondDoor.rotation.y = pi;
+					secondDoor.position.z = 0;
+					secondDoor.position.x = -14;
+			}
+
+			if(camera.position.x > 12.5 && camera.position.z < 4 && camera.position.z > -4)
+			{
+					thirdDoor.rotation.y = pi/2;
+					thirdDoor.position.z = 1;
+					thirdDoor.position.x = 14.9;
+			}
+			else{
+					thirdDoor.rotation.y = pi;
+					thirdDoor.position.z = 0;
+					thirdDoor.position.x = 14;
+
+			}
+			
 			controls.update(dt) ; 
 			renderer.render(scene, camera) ; 
+														
+			for(var i = 0; i < 20 ; i++){
+				vectorSph[i].position.z += 0.007*Math.sin(10*temps);
+				vectorSph[i].position.x += 0.007*Math.cos(10*temps);
+				vectorSph[i].position.y += 0.007*Math.sin(10*temps);				
+			}
 		}
 
 		init() ; 
 		creerScene() ; 
+		creerGraph();
 		animate() ; 
 	</script>
 </html>
