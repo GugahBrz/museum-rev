@@ -11,6 +11,7 @@
 	<script src="js/parser.js"></script>
 	<script src="lib/FirstPersonControls.js"></script>
 	<script src="js/controleur.js"></script>
+	<script src="lib/physics.js"></script>
 	<script>
 		var temps = 0.0 ; 
 		var dt ; 
@@ -38,13 +39,19 @@
 		var elevator ;
 		var x;
 		var esfera;
+		var esfera2;
+		var esfera3;
+		var esfera4;
+		var esfera5;
+		var esfera6;
+		var esferinhas = [];
 		var cylinder2;
 		var mainDoor ;
 		var sky;
 		var pi = 3.1415;
-		
 
 		function init(){
+			var physics = new Physics();
 			chrono = new THREE.Clock() ; 
 			annuaire = {} ; 
 			renderer = new THREE.WebGLRenderer();
@@ -87,18 +94,46 @@
 		function chercherDansAnnuaire(nom){
 			return (annuaire[nom] || null) ; 
 		}
-		
-		
-		
-		
-		function creerGraph(){
-		
-			var geoElevator = new THREE.BoxGeometry(1,2,1);
-			var matElevator = new THREE.MeshBasicMaterial( {color: 0x588c3d} );
-			elevator = 		  new THREE.Mesh(geoElevator,matElevator);
-			scene.add(elevator);
 
+
+
+
+		function creerGraph(){
+
+		var sphere = new THREE.SphereGeometry(0.25,16,16);
+		var mat = new THREE.MeshBasicMaterial( {color: 0xFFFFFF} );
+		esfera = new THREE.Mesh(sphere, mat);
+		scene.add(esfera);
+		esfera.position.set(13,3.25,-5);
 		
+		esfera2 = new THREE.Mesh(sphere, mat);
+		scene.add(esfera2);
+		esfera2.position.set(13,5.65,-5);
+		
+		var mat = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
+		
+		esfera3 = new THREE.Mesh(sphere, mat);
+		scene.add(esfera3);
+		esfera3.position.set(14.5,4.45,-5);
+		
+		esfera4 = new THREE.Mesh(sphere, mat);
+		scene.add(esfera4);
+		esfera4.position.set(11.5,4.45,-5);
+		
+		esfera5 = new THREE.Mesh(sphere, mat);
+		scene.add(esfera5);
+		esfera5.position.set(13,4.45,-6.5);
+		
+		esfera6 = new THREE.Mesh(sphere, mat);
+		scene.add(esfera6);
+		esfera6.position.set(13,4.45,-3.5);
+		
+	
+		var geoElevator = new THREE.BoxGeometry(1,2,1);
+		var matElevator = new THREE.MeshBasicMaterial( {color: 0x588c3d} );
+		elevator =		  new THREE.Mesh(geoElevator,matElevator);
+		scene.add(elevator);
+
 		var geometry = new THREE.CylinderGeometry(2, 2, 3, 50 );
 		var material = new THREE.MeshLambertMaterial({color: 0x7777ff, opacity: 0.8, transparent: true});
 		var cylinder = new THREE.Mesh( geometry, material );
@@ -131,7 +166,33 @@
 								  }
 		}
 		
+		
+		function creerSculture(){
+				var j;
+				var k;
+				for(j = 0; j < 5; j++){ 
+						var sphere = new THREE.SphereGeometry(0.25,16,16);
+					    var material = new THREE.MeshBasicMaterial({color:Math.random() * 0xffffff});
+						esferinhas[j]  = new THREE.Mesh(sphere, material);
+						scene.add(esferinhas[j]);
+						esferinhas[j].position.set(-12+j,4.25,-11.5);
+					}
+				for(k = 0; k < 5; k++){ 
+						var sphere = new THREE.SphereGeometry(0.25,16,16);
+						var material = new THREE.MeshBasicMaterial({color:Math.random() * 0xffffff});
+						esferinhas[k]  = new THREE.Mesh(sphere, material);
+						scene.add(esferinhas[k]);
+						esferinhas[k].position.set(-10,4.25,-13.5+k);
+				}	
+
+		
+		
+		}
+		
+		
 		function creerScene(){
+		
+		
 
 			//Section audio
 			//var listener = new THREE.AudioListener() ; 
@@ -217,21 +278,10 @@
 			scene.add(cylinder2);
 			});
 			
-
-
-			document.addEventListener("keydown", function(event) {
-			var code = event.keyCode;
-			
-			if (code === 83) block1.translateY(-3);
-			if (code === 87) block1.translateY(3);
-			if (code === 68) block1.translateX(3);
-			});
-
-
 			sound2 = creerSourceAudio3d(listener,"assets/sounds/oiseaux/piste_5.mp3",
                                                              {"loop":true}) ;
 
-			 scene.add(sound2) ;
+		
 			pointeur = creerSphere("pointeur",0.05,16,materiauRouge) ; 
 			scene.add(pointeur) ;
 
@@ -286,26 +336,30 @@
 			chargerDocument() ;  
 			console.log("Fin de création de la scène") ; 
 		}
+		
 
 		function animate(){
 		
 			
-			
-			
-		
-		
 			dt = chrono.getDelta(); 
 			temps += dt ; 
 			requestAnimationFrame(animate) ;	
-			elevator.position.set(14,2+1.7*Math.sin(0.5*temps)+0.3,-13.25);	
-			//cube.rotation.y += 0.1;
+			cylinder2.applyForce = 5;
+			elevator.position.set(14,+1.5*Math.sin(0.5*temps)+2.5,-13.25);	
+			
+			esfera3.position.set(13+1.5*Math.cos(0.5*temps),4.45,1.5*Math.sin(0.5*temps)-5);
+			esfera4.position.set(13-1.5*Math.cos(0.5*temps),4.45,-1.5*Math.sin(0.5*temps)-5);
+			esfera5.position.set(13-1.5*Math.sin(0.5*temps),4.45,+1.5*Math.cos(0.5*temps)-5);
+			esfera6.position.set(13+1.5*Math.sin(0.5*temps),4.45,-1.5*Math.cos(0.5*temps)-5);
+			
 			sky.rotation.y += 0.001;
 			esfera.position.set(-2.33,0.2*Math.sin(1.2*temps)+1.8,-7.55);
-			
-			if(camera.position.x > 0)
+					
+			if(camera.position.x > 0 && camera.position.z > 0)
 			{
-				cube.rotation.y += camera.position.x * 0.02;
+				cube.rotation.y += camera.position.x * camera.position.z * 0.002;
 			}
+			
 			
 			
 			if(camera.position.x < -12.5 && camera.position.z > 11.5)
@@ -355,11 +409,14 @@
 				vectorSph[i].position.x += 0.007*Math.cos(10*temps);
 				vectorSph[i].position.y += 0.007*Math.sin(10*temps);				
 			}
+			var attraction = physics.makeAttraction(cylinder2, elevator, 5000, 100);
 		}
 
 		init() ; 
 		creerScene() ; 
 		creerGraph();
+		creerSculture();
 		animate() ; 
 	</script>
 </html>
+	

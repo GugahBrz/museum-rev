@@ -72,22 +72,22 @@ KeyboardControls.prototype.update = function(dt){
 
 function keyUp(event){
 	switch(event.keyCode){
-		case 82 : // HAUT
+		case 49 : // HAUT
 			controls.plusHaut = false ; 
 			break ; 
-		case 70 : // BAS
+		case 50 : // BAS
 			controls.plusBas = false ;
 			break ; 
-		case 81 : // GAUCHE
+		case 37 : // GAUCHE
 			controls.aGauche = false ; 
 			break ; 
-		case 90 : // HAUT
+		case 38 : // HAUT
 			controls.enAvant = false ;
 			break ; 
-		case 68 : // DROITE
+		case 39 : // DROITE
 			controls.aDroite = false ;
 			break ; 
-		case 83 : // BAS
+		case 40 : // BAS
 			controls.enArriere = false ;
 			break ; 
 	}
@@ -98,22 +98,22 @@ function keyDown(event){
 	//mouseClicked=false;
 	console.log("KEYDOWN") ; 
 	switch(event.keyCode){
-		case 82 : // HAUT
+		case 49 : // HAUT
 			controls.plusHaut = true ; 
 			break ; 
-		case 70 : // BAS
+		case 50 : // BAS
 			controls.plusBas = true ;
 			break ; 
-		case 81 : // GAUCHE
+		case 37 : // GAUCHE
 			controls.aGauche = true ; 
 			break ; 
-		case 90 : // HAUT
+		case 38 : // HAUT
 			controls.enAvant = true ;
 			break ; 
-		case 68 : // DROITE
+		case 39 : // DROITE
 			controls.aDroite = true ;
 			break ; 
-		case 83 : // BAS
+		case 40 : // BAS
 			controls.enArriere = true ;
 			break ; 
 	}
