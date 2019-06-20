@@ -21,7 +21,7 @@
 		var renderer = null;
 		var camera = null;
 
-
+		var mesh3;
 		var positionCamera = null;
 		var listener = null ;
 		var sound  = null ; 
@@ -31,7 +31,7 @@
 		var controls = null ; 
 		var windowHalfX = window.innerWidth  / 2.0 ; 
 		var windowHalfY = window.innerHeight / 2.0 ; 
-
+		var esferaDroit;
 		var pointeur ;
 		var mouseX = mouseY = 0.0 ; 
 		var data ; 
@@ -45,6 +45,7 @@
 		var esfera5;
 		var esfera6;
 		var esferinhas = [];
+		var esferinhas2 = [];
 		var cylinder2;
 		var mainDoor ;
 		var sky;
@@ -106,6 +107,10 @@
 		scene.add(esfera);
 		esfera.position.set(13,3.25,-5);
 		
+		
+		
+		
+		
 		esfera2 = new THREE.Mesh(sphere, mat);
 		scene.add(esfera2);
 		esfera2.position.set(13,5.65,-5);
@@ -128,6 +133,24 @@
 		scene.add(esfera6);
 		esfera6.position.set(13,4.45,-3.5);
 		
+		
+		for(var i = 0; i < 2; i++){
+		
+			esferinhas2[i] = new THREE.Mesh(sphere, mat);
+			scene.add(esferinhas2[i]);
+			esferinhas2[i].position.set(-2+4*i,4.6,-3.5);
+		
+		}
+		
+		var gango = new THREE.BoxGeometry(0.01,1.2,0.01);
+		var matGango = new THREE.MeshBasicMaterial( {color: 0xb38e2b} );
+		mesh3 =		  new THREE.Mesh(gango,matGango);
+		mesh3.position.set(2,5.45,-3.5);
+		scene.add(mesh3);
+		meshgango = new THREE.Mesh(gango,matGango);
+		meshgango.position.set(-2,5.45,-3.5);
+		scene.add(meshgango);
+		
 	
 		var geoElevator = new THREE.BoxGeometry(1,2,1);
 		var matElevator = new THREE.MeshBasicMaterial( {color: 0x588c3d} );
@@ -141,7 +164,7 @@
 
 		cylinder.position.set(0,1.5,3);
 
-		scene.add( cylinder );
+		scene.add(cylinder);
 		scene.add(cylinder2);
 
 		var yDistance = 0.05;
@@ -184,9 +207,6 @@
 						scene.add(esferinhas[k]);
 						esferinhas[k].position.set(-10,4.25,-13.5+k);
 				}	
-
-		
-		
 		}
 		
 		
@@ -230,6 +250,9 @@
 			esfera = new THREE.Mesh(geo, material);
 			esfera.position.set(-2.33, 1.5, -7.55) ;
 			scene.add(esfera);
+			esferaDroit = new THREE.Mesh(geo, material);
+			esferaDroit.position.set(2.33, 1.5, -7.55);
+			scene.add(esferaDroit);
 			});
 	
 			var loader = new THREE.TextureLoader();
@@ -274,8 +297,11 @@
 			
 			cylinder2 = new THREE.Mesh(geometry2, material);
 			cylinder2.position.set(-2.34,0.5,-7.5);
+			var cylinder3 = new THREE.Mesh(geometry2, material);
+			cylinder3.position.set(2.34,0.5,-7.5);
 
 			scene.add(cylinder2);
+			scene.add(cylinder3);
 			});
 			
 			sound2 = creerSourceAudio3d(listener,"assets/sounds/oiseaux/piste_5.mp3",
@@ -337,7 +363,6 @@
 			console.log("Fin de création de la scène") ; 
 		}
 		
-
 		function animate(){
 		
 			
@@ -345,15 +370,17 @@
 			temps += dt ; 
 			requestAnimationFrame(animate) ;	
 			cylinder2.applyForce = 5;
-			elevator.position.set(14,+1.5*Math.sin(0.5*temps)+2.5,-13.25);	
-			
+			elevator.position.set(14,+1.5*Math.sin(0.5*temps)+2.5,-13.25);		
 			esfera3.position.set(13+1.5*Math.cos(0.5*temps),4.45,1.5*Math.sin(0.5*temps)-5);
 			esfera4.position.set(13-1.5*Math.cos(0.5*temps),4.45,-1.5*Math.sin(0.5*temps)-5);
 			esfera5.position.set(13-1.5*Math.sin(0.5*temps),4.45,+1.5*Math.cos(0.5*temps)-5);
 			esfera6.position.set(13+1.5*Math.sin(0.5*temps),4.45,-1.5*Math.cos(0.5*temps)-5);
 			
+			
+			
 			sky.rotation.y += 0.001;
 			esfera.position.set(-2.33,0.2*Math.sin(1.2*temps)+1.8,-7.55);
+			esferaDroit.position.set(2.33,0.2*Math.sin(1.2*temps)+1.8,-7.55);
 					
 			if(camera.position.x > 0 && camera.position.z > 0)
 			{
